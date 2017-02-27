@@ -2,19 +2,19 @@
 ob_start();
 session_start();
 
-if (isset($_GET['login'])){
+if (isset($_GET['login'])) {
     require 'openid.php';
     try {
         require('SteamConfig.php');
         $openid = new LightOpenID($steamauth['domain']);
 
-        if(!$openid->mode) {
+        if (!$openid->mode) {
             $openid->identity = 'https://steamcommunity.com/openid';
             header('Location: ' . $openid->authUrl());
         } elseif ($openid->mode == 'cancel') {
             echo 'User has canceled authentication!';
         } else {
-            if($openid->validate()) {
+            if ($openid->validate()) {
                 $id = $openid->identity;
                 $ptn = '/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/';
                 preg_match($ptn, $id, $matches);
@@ -24,7 +24,7 @@ if (isset($_GET['login'])){
                 $stmt->execute([$matches[1]]);
                 $result = $stmt->fetch(PDO::FETCH_OBJ);
                 $success = false;
-                if(!isset($result->id)) {
+                if (!isset($result->id)) {
                     $stmt = $db->prepare('INSERT INTO logins (steamid, success, ip) VALUES (?, \'0\', ?);');
                     $stmt->execute([$matches[1], $_SERVER['REMOTE_ADDR']]);
                 } else {
@@ -34,38 +34,30 @@ if (isset($_GET['login'])){
                     $stmt->execute([$matches[1], $_SERVER['REMOTE_ADDR']]);
                 }
 
-                if (!headers_sent()) {
-                    header('Location: '.$steamauth['loginpage']);
-                    exit;
+                if ($success) {
+                    header('Location: players.php');
                 } else {
-                    ?>
-                    <script type="text/javascript">
-                        window.location.href="<?=$steamauth['loginpage']?>";
-                    </script>
-                    <noscript>
-                        <meta http-equiv="refresh" content="0;url=<?=$steamauth['loginpage']?>" />
-                    </noscript>
-                    <?php
-                    exit;
+                    header('Location: /');
                 }
+                exit;
             } else {
                 echo "User is not logged in.\n";
             }
         }
-    } catch(ErrorException $e) {
+    } catch (ErrorException $e) {
         echo $e->getMessage();
     }
 }
 
-if(isset($_GET['verify'])) {
+if (isset($_GET['verify'])) {
 
 }
 
-if (isset($_GET['logout'])){
+if (isset($_GET['logout'])) {
     require 'SteamConfig.php';
     session_unset();
     session_destroy();
-    header('Location: '.$steamauth['logoutpage']);
+    header('Location: ' . $steamauth['logoutpage']);
     exit;
 }
 ?>
