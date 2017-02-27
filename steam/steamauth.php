@@ -1,6 +1,7 @@
 <?php
 ob_start();
 session_start();
+
 if (isset($_GET['login'])){
     require 'openid.php';
     try {
@@ -18,7 +19,21 @@ if (isset($_GET['login'])){
                 $ptn = '/^http:\/\/steamcommunity\.com\/openid\/id\/(7[0-9]{15,25}+)$/';
                 preg_match($ptn, $id, $matches);
 
-                $_SESSION['steamid'] = $matches[1];
+                $db = new PDO('mysql:host=localhost;dbname=nova_administration;charset=utf8mb4', 'novaadmin', 'Nova2016');
+                $stmt = $db->prepare('SELECT * FROM steamid_whitelist WHERE steamid = ?');
+                $stmt->execute([$matches[1]]);
+                $result = $stmt->fetch(PDO::FETCH_OBJ);
+                $success = false;
+                if(!isset($result->id)) {
+                    $stmt = $db->prepare('INSERT INTO logins (steamid, success, ip) VALUES (?, \'0\', ?);');
+                    $stmt->execute([$matches[1], $_SERVER['REMOTE_ADDR']]);
+                } else {
+                    $success = true;
+                    $_SESSION['id'] = $result->id;
+                    $stmt = $db->prepare('INSERT INTO logins (steamid, success, ip) VALUES (?, \'1\', ?);');
+                    $stmt->execute([$matches[1], $_SERVER['REMOTE_ADDR']]);
+                }
+
                 if (!headers_sent()) {
                     header('Location: '.$steamauth['loginpage']);
                     exit;
