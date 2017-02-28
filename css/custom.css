@@ -6,7 +6,7 @@ html, body {
 }
 
 .header-body {
-    padding-top: 70px;
+    padding-top: 50px;
 }
 
 .center-div {
@@ -58,4 +58,16 @@ html, body {
 
 .jumbotron h1 {
     text-align: center;
+    margin-top: 0px;
+}
+
+.jumbotron {
+    margin-bottom: 0px;
+    height: 100%;
+}
+
+.jumbocontainer {
+    height: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
