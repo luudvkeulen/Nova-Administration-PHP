@@ -34,6 +34,19 @@
             </tr>
             </tbody>
         </table>
+        <form method="post">
+            <div class="row form-row">
+                <div class="col-md-5 form-col">
+                    <input id="steamid" class="form-control" type="text" placeholder="steam id" maxlength="17" pattern="^[0-9]{17}$" />
+                </div>
+                <div class="col-md-5 form-col">
+                    <input id="nickname" class="form-control" type="text" placeholder="nickname"/>
+                </div>
+                <div class="col-md-2 form-col">
+                    <input class="btn btn-success addplayerbutton" type="submit" value="Add"/>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 </body>

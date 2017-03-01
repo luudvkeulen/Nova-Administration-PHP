@@ -71,3 +71,16 @@ html, body {
     padding-top: 20px;
     padding-bottom: 20px;
 }
+
+.form-row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.form-col {
+    padding: 0px 5px;
+}
+
+.addplayerbutton {
+    width: 100%;
+}
