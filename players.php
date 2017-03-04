@@ -1,3 +1,5 @@
+<?php require('classes/PlayerDAO.php'); ?>
+
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -20,6 +22,13 @@
             </tr>
             </thead>
             <tbody>
+            <?php
+                $playerdao = new PlayerDAO();
+                $result = $playerdao->findAll();
+                while($row = $result) {
+                    echo 'test';
+                }
+            ?>
             <tr>
                 <td>123345</td>
                 <td>Test</td>
