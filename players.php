@@ -1,4 +1,6 @@
-<?php require('classes/PlayerDAO.php'); ?>
+<?php
+require('classes/Database.php');
+?>
 
 <!DOCTYPE HTML>
 <html lang="en">
@@ -23,28 +25,25 @@
             </thead>
             <tbody>
             <?php
-                $database = new Database();
-                $database->query("SELECT * FROM players");
-                $rows = $database->resultSet();
+            $database = new Database();
+            $database->query("SELECT * FROM players");
+            $rows = $database->resultSet();
+            foreach ($rows as $row) {
+                echo '<tr>';
+                echo '<td>' . $row['steamid'] . '</td>';
+                echo '<td>' . $row['nickname'] . '</td>';
+                echo '<td>0</td>';
+                echo '<td>0</td>';
+                echo '</tr>';
+            }
             ?>
-            <tr>
-                <td>123345</td>
-                <td>Test</td>
-                <td>5</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>1233231345</td>
-                <td>Test2</td>
-                <td>0</td>
-                <td>3</td>
-            </tr>
             </tbody>
         </table>
         <form method="post">
             <div class="row form-row">
                 <div class="col-md-5 form-col">
-                    <input id="steamid" class="form-control" type="text" placeholder="steam id" maxlength="17" pattern="^[0-9]{17}$" />
+                    <input id="steamid" class="form-control" type="text" placeholder="steam id" maxlength="17"
+                           pattern="^[0-9]{17}$"/>
                 </div>
                 <div class="col-md-5 form-col">
                     <input id="nickname" class="form-control" type="text" placeholder="nickname"/>
