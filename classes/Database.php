@@ -33,6 +33,6 @@ class Database
     }
 
     public function bind($param, $value, $type = null) {
-        
+
     }
 }

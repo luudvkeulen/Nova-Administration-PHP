@@ -23,11 +23,9 @@
             </thead>
             <tbody>
             <?php
-                $playerdao = new PlayerDAO();
-                $result = $playerdao->findAll();
-                while($row = $result) {
-                    echo 'test';
-                }
+                $database = new Database();
+                $database->query("SELECT * FROM players");
+                $rows = $database->resultSet();
             ?>
             <tr>
                 <td>123345</td>
